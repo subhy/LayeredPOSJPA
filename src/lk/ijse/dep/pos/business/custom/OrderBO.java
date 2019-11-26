@@ -14,4 +14,5 @@ public interface OrderBO extends SuperBO {
 
     List<OrderDTO2> getOrderInfo(String query) throws Exception;
 
+
 }

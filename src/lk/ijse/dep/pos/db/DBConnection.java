@@ -39,9 +39,9 @@ public class DBConnection {
             DBConnection.port = port;
             String db = properties.getProperty("pos.db");
             DBConnection.db = db;
-            String user = DEPCrypt.decode(properties.getProperty("pos.user"), "123");
+            String user = DEPCrypt.decode(properties.getProperty("pos.user"), "dep4");
             DBConnection.username = user;
-            String password = DEPCrypt.decode(properties.getProperty("pos.password"), "123");
+            String password = DEPCrypt.decode(properties.getProperty("pos.password"), "dep4");
             DBConnection.password = password;
 
             /* Reading a file

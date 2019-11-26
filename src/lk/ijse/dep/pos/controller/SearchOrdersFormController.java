@@ -1,9 +1,7 @@
 package lk.ijse.dep.pos.controller;
 
-/*
-import lk.ijse.dep.pos.db.DB;
-import lk.ijse.dep.pos.db.Order;
-import lk.ijse.dep.pos.db.OrderDetail;
+
+import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,16 +15,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import lk.ijse.dep.pos.business.BOFactory;
+import lk.ijse.dep.pos.business.BOTypes;
+import lk.ijse.dep.pos.business.custom.OrderBO;
+import lk.ijse.dep.pos.dto.OrderDTO2;
+import lk.ijse.dep.pos.entity.OrderDetail;
 import lk.ijse.dep.pos.util.CustomerTM;
 import lk.ijse.dep.pos.util.OrderTM;
 
 import java.io.IOException;
 import java.net.URL;
-*/
+import java.util.List;
+
 public class SearchOrdersFormController {
-    /*
+
     public TextField txtSearch;
     public TableView<OrderTM> tblOrders;
+
+    private OrderBO orderBO= BOFactory.getInstance().getBO(BOTypes.ORDER);
 
     public void initialize() {
         // Let's map
@@ -36,52 +42,37 @@ public class SearchOrdersFormController {
         tblOrders.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("customerName"));
         tblOrders.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
 
-        ObservableList<OrderTM> olOrders = tblOrders.getItems();
 
-        for (Order order : DB.orders) {
-            String orderId = order.getOrderId();
-            String orderDate = order.getOrderDate().toString();
-            String customerId = order.getCustomerId();
-            String customerName = null;
-
-            for (CustomerTM customer : DB.customers) {
-                if (customer.getId().equals(customerId)) {
-                    customerName = customer.getName();
-                    break;
-                }
+        try {
+            ObservableList<OrderTM> olOrders = tblOrders.getItems();
+            List<OrderDTO2> allOrders=orderBO.getOrderInfo("");
+            for (OrderDTO2 orders : allOrders) {
+                olOrders.add(new OrderTM(orders.getOrderId(),orders.getOrderDate(),orders.getCustomerId(),orders.getCustomerName(),orders.getTotal()));
             }
-
-            double total = 0.0;
-            for (OrderDetail orderDetail : order.getOrderDetails()) {
-                double orderDetailTotal = orderDetail.getQty() * orderDetail.getUnitPrice();
-                total += orderDetailTotal;
-            }
-
-            OrderTM orderTM = new OrderTM(orderId, orderDate, customerId, customerName, total);
-            olOrders.add(orderTM);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        ObservableList<OrderTM> olAllOrders =
-                FXCollections.observableArrayList(olOrders);
 
-        txtSearch.textProperty().addListener(new ChangeListener<String>() {
+           txtSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 
                 String searchText = txtSearch.getText();
 
-                ObservableList<OrderTM> tempOrders = FXCollections.observableArrayList();
-
-                for (OrderTM order : olAllOrders) {
-                    if (order.getOrderId().contains(searchText) ||
-                            order.getOrderDate().contains(searchText) ||
-                            order.getCustomerId().contains(searchText) ||
-                            order.getCustomerName().contains(searchText)) {
-                        tempOrders.add(order);
+                try {
+                    ObservableList<OrderTM> olOrders = tblOrders.getItems();
+                    List<OrderDTO2> allOrders=orderBO.getOrderInfo(txtSearch.getText());
+                    tblOrders.getItems().clear();
+                    for (OrderDTO2 orders : allOrders) {
+                        olOrders.add(new OrderTM(orders.getOrderId(),orders.getOrderDate(),orders.getCustomerId(),orders.getCustomerName(),orders.getTotal()));
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                tblOrders.setItems(tempOrders);
+
+
             }
         });
 
@@ -89,7 +80,7 @@ public class SearchOrdersFormController {
 
     @FXML
     private void navigateToHome(MouseEvent event) throws IOException {
-        URL resource = this.getClass().getResource("/lk.ijse.dep.pos.view/MainForm.fxml");
+        URL resource = this.getClass().getResource("/lk/ijse/dep/pos/view/MainForm.fxml");
         Parent root = FXMLLoader.load(resource);
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) (this.txtSearch.getScene().getWindow());
@@ -100,7 +91,7 @@ public class SearchOrdersFormController {
     public void tblOrders_OnMouseClicked(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getClickCount() == 2) {
 
-            URL resource = this.getClass().getResource("/lk.ijse.dep.pos.view/PlaceOrderForm.fxml");
+            URL resource = this.getClass().getResource("/lk/ijse/dep/pos/view/PlaceOrderForm.fxml");
             FXMLLoader fxmlLoader = new FXMLLoader(resource);
             Parent root = fxmlLoader.load();
             Scene placeOrderScene = new Scene(root);
@@ -112,9 +103,9 @@ public class SearchOrdersFormController {
 
             PlaceOrderFormController ctrl = fxmlLoader.getController();
             OrderTM selectedOrder = tblOrders.getSelectionModel().getSelectedItem();
-            ctrl.initializeForSearchOrderForm(selectedOrder.getOrderId());
+           // ctrl.initializeForSearchOrderForm(selectedOrder.getOrderId());
 
             secondaryStage.show();
         }
-    }*/
+    }
 }

@@ -42,7 +42,7 @@ public class AppInitializer extends Application {
             primaryStage.setScene(mainScene);
             primaryStage.setTitle("JDBC POS - 2019");
             primaryStage.centerOnScreen();
-            primaryStage.setResizable(false);
+          //  primaryStage.setResizable(false);
             primaryStage.centerOnScreen();
             primaryStage.show();
 

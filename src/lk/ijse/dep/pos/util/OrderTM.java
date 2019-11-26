@@ -1,8 +1,10 @@
 package lk.ijse.dep.pos.util;
 
+import java.sql.Date;
+
 public class OrderTM {
-    private String orderId;
-    private String orderDate;
+    private int orderId;
+    private Date orderDate;
     private String customerId;
     private String customerName;
     private double total;
@@ -10,7 +12,15 @@ public class OrderTM {
     public OrderTM() {
     }
 
-    public OrderTM(String orderId, String orderDate, String customerId, String customerName, double total) {
+   /* public OrderTM(String orderId, String orderDate, String customerId, String customerName, double total) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.total = total;
+    }*/
+
+    public OrderTM(int orderId, Date orderDate, String customerId, String customerName, double total) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.customerId = customerId;
@@ -18,19 +28,19 @@ public class OrderTM {
         this.total = total;
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public String getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
